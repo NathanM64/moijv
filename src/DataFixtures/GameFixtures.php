@@ -23,6 +23,15 @@ class GameFixtures extends Fixture implements DependentFixtureInterface
             $game->setDescription($faker->text(25));
             $game->setUser($this->getReference('user'.random_int(0 ,UserFixtures::USER_COUNT - 1)));
 
+            $slugs = array_keys(CategoryFixtures::CATEGORIES);
+            $slugCategory = $slugs[random_int(0, count($slugs) - 1)];
+            $category = $this->getReference('category_'.$slugCategory);
+
+            $game->setCategory($category);
+
+            $this->addReference('product'.$i, $game);
+
+
             $manager->persist($game);
         }
 
@@ -33,6 +42,7 @@ class GameFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             UserFixtures::class,
+            CategoryFixtures::class
         ];
     }
 }

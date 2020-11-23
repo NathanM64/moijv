@@ -45,6 +45,11 @@ class Game
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="games")
+     */
+    private $category;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,6 +111,18 @@ class Game
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

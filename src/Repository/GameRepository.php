@@ -30,6 +30,20 @@ class GameRepository extends ServiceEntityRepository
         return $paginator->paginate($query, $page);
     }
 
+    /**
+     * @param $category
+     * @return int|mixed|string
+     */
+    public function findByCategory($category)
+    {
+        return $this->createQueryBuilder('g')
+            ->join('g.category', 'c')
+            ->where('c = :category')
+            ->setParameter(':category', $category)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Game[] Returns an array of Game objects
     //  */

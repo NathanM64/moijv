@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Game;
 use App\Form\GameType;
 use DateTime;
@@ -35,7 +36,7 @@ class GameController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function gamForm(Request $request, EntityManagerInterface $manager): Response
+    public function gameForm(Request $request, EntityManagerInterface $manager): Response
     {
         $game = new Game();
 
@@ -57,5 +58,20 @@ class GameController extends AbstractController
         return $this->render('game/game-form.html.twig', [
             'game_form' => $gameForm->createView()
     ]);
+    }
+
+    /**
+     * @Route("game/category/{slug}", name="game_by_category")
+     * @param Category $category
+     * @param GameRepository $gameRepository
+     * @return Response
+     */
+    public function getProductByCategory(Category $category, GameRepository $gameRepository)
+    {
+        $games = $gameRepository->findByCategory($category);
+        return $this->render('game/game-by-category.html.twig', [
+            'category' => $category,
+            'games' => $games
+        ]);
     }
 }
