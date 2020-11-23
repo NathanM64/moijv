@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} Détails du jeu {{ game.name }}{% endblock %}
+
+{% block body %}
+    
+    <h1>{{ game.name }}</h1>
+    <p>{{ game.description }}</p>
+
+    <a class="btn btn-succes" href="{{ path('home')}}">Revenir à la page d'accueil</a>
+
+{% endblock %}
