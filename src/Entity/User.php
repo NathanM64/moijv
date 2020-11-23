@@ -3,10 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -22,6 +24,7 @@ class User Implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\Length(min="1", max="30")
      */
     private $firstname;
 
@@ -41,7 +44,7 @@ class User Implements UserInterface
     private $date_register;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="string", length=255)
      */
     private $password;
 
@@ -51,9 +54,14 @@ class User Implements UserInterface
     private $avatar;
 
     /**
-     * @ORM\OneToMany(targetEntity=Game::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Game::class, mappedBy="user", orphanRemoval=true, fetch="EAGER")
      */
     private $games;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
 
     public function __construct()
     {
@@ -101,12 +109,12 @@ class User Implements UserInterface
         return $this;
     }
 
-    public function getDateRegister(): ?\DateTimeInterface
+    public function getDateRegister(): ?DateTimeInterface
     {
         return $this->date_register;
     }
 
-    public function setDateRegister(\DateTimeInterface $date_register): self
+    public function setDateRegister(DateTimeInterface $date_register): self
     {
         $this->date_register = $date_register;
 
@@ -168,7 +176,11 @@ class User Implements UserInterface
     }
 
     public function getRoles(){
-        //
+        $roles = $this->roles;
+
+        $roles[] = 'ROLES_USER';
+
+        return array_unique($roles);
     }
 
     public function getSalt(){
@@ -176,11 +188,18 @@ class User Implements UserInterface
     }
 
     public function getUsername(){
-        return $this->email;
+        return $this->mail;
     }
 
     public function eraseCredentials(){
 
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
     
 }

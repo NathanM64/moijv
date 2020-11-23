@@ -7,6 +7,7 @@
     <h1>{{ game.name }}</h1>
     <p>{{ game.description }}</p>
 
-    <a class="btn btn-succes" href="{{ path('home')}}">Revenir à la page d'accueil</a>
+    <a class="btn btn-success" href="{{ path('home')}}">Revenir à la page d'accueil</a>
+    <a calss="btn btn-info" href="{{ path('user_details', {id : game.user.id}) }}">Voir l'utilisateur du jeu</a>
 
 {% endblock %}
