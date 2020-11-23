@@ -11,7 +11,7 @@ use App\Repository\GameRepository;
 class HomeController extends AbstractController
 {
     /**
-     * @Route("/home", name="home")
+     * @Route("/", name="home")
      * @Route("/page/{page}", name="home_paginated")
      */
     public function index(GameRepository $gameReposity, PaginatorInterface $paginator, $page = 1): Response

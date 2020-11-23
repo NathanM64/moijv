@@ -35,7 +35,13 @@
 				<div class="collapse navbar-collapse" id="navbarResponsive">
 					<ul class="navbar-nav ml-auto">
 						{{ menu_link('home', 'Accueil') }}
-						{{ menu_link('app_login', 'Connexion') }}
+
+						{% if app.user %}
+							{{ menu_link('app_logout', 'Déconnexion') }}
+						{% else %}
+							{{ menu_link('app_login', 'Connexion') }}
+						{% endif %}
+
 					</ul>
 				</div>
 			</div>
